@@ -16,10 +16,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function createApplication()
     {
+        putenv('DB_CONNECTION=mongodb_testing');
+
         $app = require __DIR__ . '/../bootstrap/app.php';
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
+        $this->resetDatabase();
+
         return $app;
+    }
+
+    /**
+     * Reset database.
+     */
+    public function resetDatabase()
+    {
+        DB::collection('users')->delete();
     }
 }
